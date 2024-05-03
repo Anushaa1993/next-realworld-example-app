@@ -1,8 +1,23 @@
-FROM node:14
+# Use official Node.js image as a parent image
+FROM node:14-alpine
+
+# Set the working directory in the container
 WORKDIR /app
-COPY package*.json /app
+
+# Copy package.json and package-lock.json (if available)
+COPY package*.json ./
+
+# Install dependencies
 RUN npm install
+
+# Copy the rest of the application code
 COPY . .
+
+# Build the Next.js application
 RUN npm run build
-EXPOSE  3005
+
+# Expose port 3000 to the outside world
+EXPOSE 3000
+
+# Command to run the Next.js application
 CMD ["npm", "start"]
